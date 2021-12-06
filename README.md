@@ -1,4 +1,4 @@
-# LemniscateBot v13
+# Lemniscate Bot v13
 
 ### My bot's project made with discord.js@13.3.1
 
