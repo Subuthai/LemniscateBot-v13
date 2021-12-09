@@ -52,7 +52,7 @@ export default {
 
         await member.send({
             embeds: [new MessageEmbed({
-                color: 'RED',
+                color: 'DARK_ORANGE',
                 title: `You have been unmuted in ${interaction.guild.name}!`,
                 description: `Responsible Moderator: ${interaction.member.user.tag ?? interaction.member}-(${interaction.member.user.id})\nReason: ${reason}`,
                 timestamp: new Date()
