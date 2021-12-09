@@ -21,7 +21,7 @@ export default {
                         muted.delete()
                         member.send({
                             embeds: [new MessageEmbed({
-                                color: 'RED',
+                                color: 'DARK_ORANGE',
                                 title: `You have been unmuted in ${guild.name}`,
                                 description: `This is an automatic unmute.`,
                             }),],
