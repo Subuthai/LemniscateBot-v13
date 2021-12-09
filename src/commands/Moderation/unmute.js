@@ -30,11 +30,10 @@ export default {
         const muteRole = await interaction.guild.roles.fetch(process.env.MUTE_ROLE, { cache: false })
             .catch(() => {})
 
-        const permissions = 1n << 22n | 1n << 28n
+        const permission = "MUTE_MEMBERS"
 
-        if (!interaction.member.permissions.has(permissions))
-            return interaction.reply(`You're missing \`${interaction.memberPermissions.missing(permissions)
-                .join(' & ')}\` permission(s).`)
+        if (!interaction.member.permissions.has(permission))
+            return interaction.reply(`You're missing \`${interaction.memberPermissions.missing(permission)}\` permission.`)
 
         if (user === interaction.member.user.id)
             return interaction.reply(`Why yes, I'd ${this.data.name} you myself if I had the chance to but yeah, this is not happening.`)
