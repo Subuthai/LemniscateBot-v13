@@ -29,13 +29,13 @@ export default {
     execute: async function (interaction) {
 
         const user = interaction.options.getUser('member').id
-        const member = await interaction.guild.members.fetch({user})
+        const member = await interaction.guild.members.fetch({ user })
             .catch(() => {
             })
         const duration = interaction.options.getString('duration')
         let reason = interaction.options.getString('reason') ?? `No reason provided by ${interaction.member.user.tag}`
 
-        const muteRole = await interaction.guild.roles.fetch(process.env.MUTE_ROLE, {cache: false})
+        const muteRole = await interaction.guild.roles.fetch(process.env.MUTE_ROLE, { cache: false })
             .catch(() => {
             })
 
@@ -63,7 +63,7 @@ export default {
             member.roles.add(muteRole, reason)
                 .then(member => {
                     interaction.reply(
-                        `Muted ${member.user.tag ?? member} for ${prettyMilliseconds(ms(duration), {verbose: true})}.`)
+                        `Muted ${member.user.tag ?? member} for ${prettyMilliseconds(ms(duration), { verbose: true })}.`)
                 })
                 .catch(error => {
                     interaction.reply(`There was an error muting the member.\n${error.message}`)
@@ -75,14 +75,14 @@ export default {
                 color: 'DARK_ORANGE',
                 title: `You have been muted in ${interaction.guild.name}!`,
                 description: `Responsible Moderator: ${interaction.member.user.tag ?? interaction.member}-(${interaction.member.user.id})\nReason: ${reason}\nDuration: ${duration ? prettyMilliseconds(
-                    ms(duration), {verbose: true}) : 'Permanently'}`,
+                    ms(duration), { verbose: true }) : 'Permanently'}`,
                 timestamp: new Date()
             })]
         })
             .catch(() => {
             })
 
-        mutes.findOne({member_id: member.id}, {}, {}, async (err, data) => {
+        mutes.findOne({ member_id: member.id }, {}, {}, async (err, data) => {
             if (err) throw err
             if (!data) {
                 await mutes.create({

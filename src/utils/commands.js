@@ -4,7 +4,7 @@ import { getDir } from 'file-ez'
 import { client } from "../bot.js";
 import { config } from "dotenv";
 
-config({path: ".env"});
+config({ path: ".env" });
 const rest = new REST().setToken(process.env.CLIENT_TOKEN)
 
 export default {
@@ -25,7 +25,7 @@ export default {
 
             await rest.put(
                 Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
-                {body: commands},
+                { body: commands },
             )
 
             console.log('Slash commands are reloaded successfully.')

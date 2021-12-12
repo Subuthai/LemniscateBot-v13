@@ -14,7 +14,7 @@ export default {
     /** @param {CommandInteraction} interaction */
     execute: async function (interaction) {
         const memberID = interaction.member.user.id
-        balance.findOne({member_id: memberID}, {}, {}, async (err, data) => {
+        balance.findOne({ member_id: memberID }, {}, {}, async (err, data) => {
             if (err) throw err
             if (!data) {
                 await balance.create({

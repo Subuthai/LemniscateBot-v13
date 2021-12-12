@@ -24,11 +24,13 @@ export default {
 
         const user = interaction.options.getUser('member').id
         const member = await interaction.guild.members.fetch({ user })
-            .catch(() => {})
+            .catch(() => {
+            })
         let reason = interaction.options.getString('reason') ?? `No reason provided by ${interaction.member.user.tag}`
 
         const muteRole = await interaction.guild.roles.fetch(process.env.MUTE_ROLE, { cache: false })
-            .catch(() => {})
+            .catch(() => {
+            })
 
         const permission = "MUTE_MEMBERS"
 
@@ -58,7 +60,8 @@ export default {
                 timestamp: new Date()
             })]
         })
-            .catch(() => {})
+            .catch(() => {
+            })
 
         mutes.findOne({ member_id: member.id }, {}, {}, async (err, data) => {
             if (err) throw err

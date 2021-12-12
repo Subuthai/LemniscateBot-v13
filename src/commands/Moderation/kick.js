@@ -44,7 +44,7 @@ export default {
             case 'by-mention':
                 //Mention User
                 const userMention = interaction.options.getUser('mention', true)
-                const isUserMention = await interaction.guild.members.fetch({user: userMention})
+                const isUserMention = await interaction.guild.members.fetch({ user: userMention })
                     .catch(() => {
                     })
                 if (!isUserMention) return interaction.reply({
@@ -82,7 +82,7 @@ export default {
             case 'by-id':
                 //ID User
                 const userID = interaction.options.getString('id', true)
-                const isUserID = await interaction.guild.members.fetch({user: userID})
+                const isUserID = await interaction.guild.members.fetch({ user: userID })
                     .catch(() => {
                     })
                 if (!isUserID) return interaction.reply({

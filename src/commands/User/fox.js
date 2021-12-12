@@ -17,7 +17,7 @@ export default {
                     url: result.link
                 }
             })
-            await interaction.reply({embeds: [embed]})
+            await interaction.reply({ embeds: [embed] })
         })
     }
 }

@@ -14,7 +14,8 @@ export default {
 
                     const member = await guild.members
                         .fetch({ user: muted['member_id'] })
-                        .catch(() => {})
+                        .catch(() => {
+                        })
 
                     if (muted['unmute_at'] <= Date.now()) {
                         await member.roles.remove(process.env.MUTE_ROLE)
@@ -26,7 +27,8 @@ export default {
                                 description: `This is an automatic unmute.`,
                             }),],
                         })
-                            .catch(() => {})
+                            .catch(() => {
+                            })
                     }
                 }
             })
