@@ -1,13 +1,14 @@
 import Mongoose from 'mongoose'
+import zaq from 'zaq';
 
 export default {
     connect: async function (url) {
         try {
             Mongoose.connect(url, () => {
-                console.log('Database connection successful.')
+                zaq.ok('Database connection successful.')
             })
         } catch (error) {
-            console.log(`There was an error connecting to the database.\n\n${error}`)
+            zaq.error(`There was an error connecting to the database.\n\n${error}`)
         }
     }
 }

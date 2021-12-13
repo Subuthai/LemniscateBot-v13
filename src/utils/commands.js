@@ -1,10 +1,11 @@
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
 import { getDir } from 'file-ez'
-import { client } from "../bot.js";
-import { config } from "dotenv";
+import { client } from '../bot.js';
+import { config } from 'dotenv';
+import zaq from 'zaq';
 
-config({ path: ".env" });
+config({ path: '.env' });
 const rest = new REST().setToken(process.env.CLIENT_TOKEN)
 
 export default {
@@ -21,16 +22,15 @@ export default {
         }
 
         try {
-            console.log('Reloading slash commands.')
+            zaq.info('Reloading slash commands.')
 
             await rest.put(
                 Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
                 { body: commands },
             )
-
-            console.log('Slash commands are reloaded successfully.')
+            zaq.ok('Slash commands are reloaded successfully.')
         } catch (error) {
-            console.error(error)
+            zaq.error(error)
         }
     }
 }
