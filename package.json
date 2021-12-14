@@ -13,7 +13,9 @@
   "dependencies": {
     "@discordjs/builders": "^0.9.0",
     "@discordjs/rest": "^0.1.0-canary.0",
+    "canvacord": "^5.2.3",
     "discord-api-types": "^0.25.2",
+    "discord-xp": "^1.1.16",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
     "file-ez": "^0.2.2",
