@@ -1,14 +1,14 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 
 export default {
     data: new SlashCommandBuilder()
-        .setName("say")
-        .setDescription("Bot sends the message you want.")
-        .addStringOption((option) => option.setName("message")
-            .setDescription("Specify the message"))
-        .addBooleanOption((option) => option.setName("embed")
-            .setDescription("Embed the message?")),
+        .setName('say')
+        .setDescription('Bot sends the message you want.')
+        .addStringOption((option) => option.setName('message')
+            .setDescription('Specify the message'))
+        .addBooleanOption((option) => option.setName('embed')
+            .setDescription('Embed the message?')),
 
     /**
      * @param {CommandInteraction} interaction
@@ -21,7 +21,7 @@ export default {
         })
         if (!msgContent) {
             await interaction.reply({
-                content: "You can't send an empty message.",
+                content: 'You can\'t send an empty message.',
                 ephemeral: true,
             })
         } else if (msgContent) {

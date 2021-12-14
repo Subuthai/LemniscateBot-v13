@@ -9,7 +9,6 @@ config({ path: '.env' });
 const rest = new REST().setToken(process.env.CLIENT_TOKEN)
 
 export default {
-    //loadcommands
     loadCommands: async function () {
         const commands = []
         const commandFiles = await getDir('../commands')
