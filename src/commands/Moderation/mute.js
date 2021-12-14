@@ -42,7 +42,7 @@ export default {
         const permission = "MUTE_MEMBERS"
 
         if (!interaction.member.permissions.has(permission))
-            return interaction.reply(`You're missing \`${interaction.memberPermissions.missing(permission)}\` permission.`)
+            return interaction.reply(`You're missing \`Mute Members\` permission.`)
         if (user === interaction.member.user.id)
             return interaction.reply(
                 `Why yes, I'd ${this.data.name} you myself if I had the chance to but yeah, this is not happening.`)
