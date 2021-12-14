@@ -16,6 +16,15 @@ export default {
     /** @param {CommandInteraction} interaction
      */
     execute: async function (interaction) {
+        const permission = 'MANAGE_MESSAGES'
+        if (!interaction.member.permissions.has(permission))
+            return interaction.reply({
+                embeds: [new MessageEmbed({
+                    color: colors.red,
+                    description: `You're missing \`Manage Messages\` permission.`
+                })],
+                ephemeral: true
+            })
         const amount = interaction.options.getNumber('amount')
         const channel = interaction.channel
         await channel.messages.fetch({ limit: 100 })
