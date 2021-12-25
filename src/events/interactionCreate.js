@@ -1,23 +1,36 @@
-import { CommandInteraction } from 'discord.js'
-
 export default {
     name: 'interactionCreate',
 
-    /** @param {CommandInteraction} interaction */
-    async execute(interaction) {
-        if (!interaction.isCommand()) return;
+    execute: async function(interaction) {
 
-        const command = interaction.client['commands'].get(interaction.commandName);
-        if (!command) return;
+        if (interaction.isCommand()) {
+            const command = interaction.client['commands'].get(interaction.commandName)
+            if (!command) return
 
-        try {
-            await command.execute(interaction)
-        } catch (e) {
-            console.error(e)
-            await interaction.reply({
-                content: 'An error occurred.',
-                ephemeral: true
-            })
+            try {
+                await command.execute(interaction)
+            } catch (e) {
+                console.error(e)
+                await interaction.reply({
+                    content: 'An error occurred.',
+                    ephemeral: true
+                })
+            }
+        } else if (interaction.isButton()) {
+            const button = interaction.client['buttons'].get(interaction.customId)
+            if (!button) return
+
+            try {
+                await button.execute(interaction)
+            } catch (e) {
+                console.error(e)
+                await interaction.reply({
+                    content: 'An error occurred.',
+                    ephemeral: true
+                })
+            }
         }
+
+
     }
 }
