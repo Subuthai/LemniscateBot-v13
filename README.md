@@ -1,6 +1,6 @@
 # Lemniscate Bot v13
 
-### My bot's project made with discord.js@13.3.1
+### My bot's project made with discord.js@13.4.0
 
 - Install the packages with ***npm install***
 - Create a **.env** file and fill it with your bot's things.
