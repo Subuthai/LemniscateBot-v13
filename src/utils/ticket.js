@@ -1,5 +1,7 @@
+// noinspection JSCheckFunctionSignatures
+
 import { CommandInteraction, MessageButton, MessageActionRow, MessageEmbed } from 'discord.js'
-import ticketChannel from '../databases/tickets.js'
+import tickets from '../databases/tickets.js'
 import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
@@ -17,25 +19,19 @@ export default {
         const desc = interaction.options.getString('description')
         const title = interaction.options.getString('title')
 
-        // Embed and buttons
-
-        // Reply Embeds
         const firstReplyEmbed = new MessageEmbed({
             color: colors.blue,
-            description: `Ticket message creating...`
+            description: `Ticket system creating...`
         })
-
         const secondReplyEmbed = new MessageEmbed({
             color: colors.green,
-            description: `Ticket message created in <#${channelID}>.`
+            description: `Ticket system created in <#${channelID}>.\n\n**Important Note:** If you want to delete the ticket system please use \`/ticket delete\` command.
+            \nOtherwise when you delete the system manually, you need to use \`/ticket update\` to update the database and delete the ticket system's data.`
         })
-
         const errorReplyEmbed = new MessageEmbed({
             color: colors.red,
-            description: `One channel, two ticket messages, no.`
+            description: `You can only create one ticket system in a guild.\n\nIf you want a multiple ticket system, buy a premium today! (coming soon)`
         })
-
-        // Ticket Embed
         const mainEmbed = new MessageEmbed({
             color: colors.default,
             author: {
@@ -43,8 +39,6 @@ export default {
             },
             description: desc ?? 'Open a ticket for get contact with staffs.',
         })
-
-        // Buttons
         const buttons = new MessageActionRow({
             components: [
                 new MessageButton()
@@ -61,24 +55,71 @@ export default {
         })
 
         try {
-            await interaction.reply({ embeds: [firstReplyEmbed], ephemeral: true })
-            ticketChannel.findOne({
-                guild_id: interaction.guild.id,
-                channel_id: channelID
-            }, {}, {}, async (err, data) => {
+            await interaction.reply({ embeds: [firstReplyEmbed], ephemeral: false })
+
+            tickets.findOne({ guild_id: interaction.guild.id }, {}, {}, async (err, data) => {
                 if (err) throw err
                 if (!data) {
-                    await ticketChannel.create({
+                    await tickets.create({
                         guild_id: interaction.guild.id,
                         channel_id: channelID
                     })
                     await guild.channels.cache.get(channelID)
                         .send({ embeds: [mainEmbed], components: [buttons] })
-                    // noinspection JSCheckFunctionSignatures
-                    await interaction.editReply({ embeds: [secondReplyEmbed], ephemeral: true })
+                    await interaction.editReply({ embeds: [secondReplyEmbed], ephemeral: false })
                 } else {
-                    // noinspection JSCheckFunctionSignatures
-                    await interaction.editReply({ embeds: [errorReplyEmbed], ephemeral: true })
+                    await interaction.editReply({ embeds: [errorReplyEmbed], ephemeral: false })
+                }
+            })
+        } catch (error) {
+            const errorEmbed = new MessageEmbed({
+                color: colors.red,
+                description: `An error occurred:\n\n${error}`
+            })
+            await interaction.reply({ embeds: [errorEmbed], ephemeral: true })
+        }
+    },
+
+    /** @param {CommandInteraction} interaction */
+    deleteTicket: async function (interaction) {
+        const permissions = 'MANAGE_MESSAGES'
+        if (!interaction.member.permissions.has(permissions))
+            return interaction.reply(
+                `You're missing \`Manage Messages\` permission.`)
+        const deletingEmbed = new MessageEmbed({
+            color: colors.blue,
+            description: `Deleting ticket system...`
+        })
+        const negativeEmbed = new MessageEmbed({
+            color: colors.blue,
+            description: 'This guild hasn\'t a ticket system.'
+        })
+        const successEmbed = new MessageEmbed({
+            color: colors.green,
+            description: `Ticket system deleted successfully.`
+        })
+        const unsuccessEmbed = new MessageEmbed({
+            color: colors.green,
+            description: `I can't find the ticket system.`
+        })
+
+        try {
+            await interaction.reply({ embeds: [deletingEmbed] })
+
+            tickets.findOne({ guild_id: interaction.guild.id }, {}, {}, async (err, data) => {
+                if (err) throw err
+                if (!data || !data.channel_id) {
+                    await interaction.editReply({ embeds: [negativeEmbed], ephemeral: false })
+                } else if (data.channel_id) {
+                    const channel = await interaction.guild.channels.cache.get(data.channel_id)
+                    if (channel) {
+                        await channel.delete('Destroying ticket system.')
+                        await data.delete()
+                        await interaction.editReply({ embeds: [successEmbed], ephemeral: false })
+                    } else if (!channel) {
+                        data.delete()
+                        await interaction.editReply({ embeds: [unsuccessEmbed], ephemeral: false })
+                    }
                 }
             })
         } catch (error) {
@@ -87,11 +128,56 @@ export default {
                 color: colors.red,
                 description: `An error occurred:\n\n${error}`
             })
-            await interaction.reply({ embeds: [errorEmbed], ephemeral: true })
+            await interaction.followUp({ embeds: [errorEmbed], ephemeral: true })
         }
     },
+
     /** @param {CommandInteraction} interaction */
-    deleteTicket: async function (interaction) {
-        await interaction.reply({ content: `*WIP*`, ephemeral: true })
+    updateTickets: async function (interaction) {
+        const permissions = 'MANAGE_MESSAGES'
+        if (!interaction.member.permissions.has(permissions))
+            return interaction.reply(
+                `You're missing \`Manage Messages\` permission.`)
+        const updatingEmbed = new MessageEmbed({
+            color: colors.blue,
+            description: `Updating ticket system data...`
+        })
+        const successEmbed = new MessageEmbed({
+            color: colors.green,
+            description: `I can't find the channel saved in database. So I deleted the old channel ID saved in the database.`
+        })
+        const negativeEmbed = new MessageEmbed({
+            color: colors.blue,
+            description: 'This guild hasn\'t a ticket system.'
+        })
+        const positiveEmbed = new MessageEmbed({
+            color: colors.blue,
+            description: 'This guild has a ticket system.'
+        })
+
+        try {
+            await interaction.reply({ embeds: [updatingEmbed], ephemeral: false })
+
+            tickets.findOne({ guild_id: interaction.guild.id }, {}, {}, async (err, data) => {
+                if (err) throw err
+                if (!data || !data.channel_id) {
+                    await interaction.editReply({ embeds: [negativeEmbed], ephemeral: false })
+                } else if (data.channel_id) {
+                    const channel = await interaction.guild.channels.cache.get(data.channel_id)
+                    if (channel) {
+                        await interaction.editReply({ embeds: [positiveEmbed], ephemeral: false })
+                    } else if (!channel) {
+                        data.delete()
+                        await interaction.editReply({ embeds: [successEmbed], ephemeral: false })
+                    }
+                }
+            })
+        } catch (error) {
+            const errorEmbed = new MessageEmbed({
+                color: colors.red,
+                description: `An error occurred:\n\n${error}`
+            })
+            await interaction.followUp({ embeds: [errorEmbed], ephemeral: true })
+        }
     },
 }

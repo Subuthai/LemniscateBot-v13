@@ -20,14 +20,26 @@ export default {
             .addStringOption((setChannelID) => setChannelID
                 .setName('channel-id')
                 .setDescription('test')
-                .setRequired(false))),
+                .setRequired(false)))
+        .addSubcommand((checkTicket) => checkTicket
+            .setName('update')
+            .setDescription('If you deleted ticket system by right click + delete, update the database with this command.'))
+        .addSubcommand((deleteTicket) => deleteTicket
+            .setName('delete')
+            .setDescription('Deletes the ticket system on the guild.')),
     /**
      * @param {CommandInteraction} interaction*/
-    execute: async function(interaction) {
+    execute: async function (interaction) {
         const choice = interaction.options.getSubcommand()
         switch (choice) {
             case 'create':
                 await ticket.createTicket(interaction)
+                break
+            case 'delete':
+                await ticket.deleteTicket(interaction)
+                break
+            case 'update':
+                await ticket.updateTickets(interaction)
                 break
         }
     }
