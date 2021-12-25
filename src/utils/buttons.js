@@ -9,18 +9,11 @@ export default {
     loadButtons: async function () {
         const buttonFiles = await getDir('../buttons')
             .recursive()
-
+        await zaq.info('Reloading buttons.')
         for (const file of buttonFiles) {
             const button = await file.import()
             client.buttons.set(button.data.name, button)
         }
-
-        try {
-            zaq.info('Reloading buttons.')
-
-            zaq.ok('Buttons are reloaded successfully.')
-        } catch (error) {
-            zaq.error(error)
-        }
+        await zaq.ok('Buttons are reloaded successfully.')
     }
 }
