@@ -39,7 +39,7 @@ export default {
         ),
 
     /** @param {CommandInteraction} interaction */
-    async execute(interaction) {
+    execute: async function(interaction) {
 
         let days = interaction.options.getNumber('days', false)
         days > 7 ? days = 7 : days

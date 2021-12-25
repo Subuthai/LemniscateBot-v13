@@ -6,7 +6,7 @@ export default {
     name: 'ready',
     once: true,
 
-    async execute(client) {
+    execute: async function(client) {
         zaq.ok(`Logged in as ${client.user.tag} (ID: ${client.user.id}).`)
         await mutes.checkMutes(client)
     }

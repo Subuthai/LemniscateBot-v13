@@ -18,7 +18,7 @@ export default {
         ),
 
     /** @param {CommandInteraction} interaction */
-    async execute(interaction) {
+    execute: async function(interaction) {
 
         const permissions = 1n << 2n
         if (!interaction.member.permissions.has(permissions))

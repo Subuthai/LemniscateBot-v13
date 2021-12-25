@@ -7,7 +7,7 @@ export default {
         .setName('fox')
         .setDescription('Sends a random fox image.'),
     /** @param {CommandInteraction} interaction */
-    async execute(interaction) {
+    execute: async function(interaction) {
         request('https://some-random-api.ml/img/fox', async function (error, body) {
             let result = JSON.parse(body.body);
             const embed = new MessageEmbed({

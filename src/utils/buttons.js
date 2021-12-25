@@ -20,7 +20,7 @@ export default {
 
             zaq.ok('Buttons are reloaded successfully.')
         } catch (error) {
-            zaq.info(error)
+            zaq.error(error)
         }
     }
 }

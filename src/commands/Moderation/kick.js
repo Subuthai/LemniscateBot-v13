@@ -29,7 +29,7 @@ export default {
                 .setRequired(false))),
 
     /** @param {CommandInteraction} interaction */
-    async execute(interaction) {
+    execute: async function(interaction) {
 
         const reason = interaction.options.getString(
             'reason', false) ?? `No reason provided by ${interaction.member.user.tag}`

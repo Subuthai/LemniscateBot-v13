@@ -5,7 +5,7 @@ export default {
     name: 'messageCreate',
 
     /** @param {Message} message */
-    async execute(message) {
+    execute: async function(message) {
         await xp.handle(message)
     }
 }

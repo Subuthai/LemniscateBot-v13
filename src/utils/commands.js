@@ -1,9 +1,9 @@
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
 import { getDir } from 'file-ez'
-import { client } from '../bot.js';
-import { config } from 'dotenv';
-import zaq from 'zaq';
+import { client } from '../bot.js'
+import { config } from 'dotenv'
+import zaq from 'zaq'
 
 config({ path: '.env' });
 const rest = new REST().setToken(process.env.CLIENT_TOKEN)
