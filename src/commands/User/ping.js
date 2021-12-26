@@ -10,7 +10,7 @@ export default {
      */
     execute: async function (interaction) {
         await interaction.reply({
-            content: `Pong! (but ephemeral pong.)`,
+            content: `Pong!`,
             ephemeral: true
         })
     }
