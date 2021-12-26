@@ -8,7 +8,7 @@ export default {
                 zaq.ok('Database connection successful.')
             })
         } catch (error) {
-            zaq.error(`There was an error connecting to the database.\n\n${error}`)
+            zaq.err(`There was an error connecting to the database.\n\n${error}`)
         }
     }
 }

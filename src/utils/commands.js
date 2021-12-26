@@ -29,7 +29,7 @@ export default {
             )
             zaq.ok('Slash commands are reloaded successfully.')
         } catch (error) {
-            zaq.error(error)
+            zaq.err(error)
         }
     }
 }
