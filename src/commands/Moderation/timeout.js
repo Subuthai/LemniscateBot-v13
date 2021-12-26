@@ -53,7 +53,21 @@ export default {
         if (user === interaction.member.user) return interaction.reply({
             embeds: [new MessageEmbed({
                 color: colors.red,
-                description: 'You can\'t put yourself in timeout.'
+                description: 'You can\'t use this command on yourself.'
+            })], ephemeral: false
+        })
+
+        if (user === interaction.client.user) return interaction.reply({
+            embeds: [new MessageEmbed({
+                color: colors.red,
+                description: 'You can\'t use this command on me.'
+            })], ephemeral: false
+        })
+
+        if (user.bot === true) return interaction.reply({
+            embeds: [new MessageEmbed({
+                color: colors.red,
+                description: 'You can\'t use this command on bots.'
             })], ephemeral: false
         })
 
