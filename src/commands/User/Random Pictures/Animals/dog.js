@@ -4,14 +4,14 @@ import request from 'request'
 
 export default {
     data: new SlashCommandBuilder()
-        .setName('bird')
-        .setDescription('Sends a random bird image.'),
+        .setName('dog')
+        .setDescription('Sends a random dog image.'),
     /** @param {CommandInteraction} interaction */
-    execute: async function(interaction) {
-        request('https://some-random-api.ml/img/bird', async function (error, body) {
+    execute: async function (interaction) {
+        request('https://some-random-api.ml/img/dog', async function (error, body) {
             let result = JSON.parse(body.body);
             const embed = new MessageEmbed({
-                title: '🐦',
+                title: '🐶',
                 color: 'RANDOM',
                 image: {
                     url: result.link
